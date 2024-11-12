@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat Anwendung</title>
@@ -109,12 +110,23 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io();
+    var username = '';
+
+    // Pop-up zur Eingabe des Namens beim Laden der Seite
+    window.onload = function() {
+      username = prompt("Bitte gib deinen Namen ein:");
+      if (username) {
+        alert("Willkommen, " + username + "!");
+      } else {
+        username = 'Unbekannt';
+      }
+    };
 
     // Sende Nachricht vom Formular
     document.getElementById('form').onsubmit = function(e) {
       e.preventDefault();
       if (input.value) {
-        socket.emit('chat message', input.value); // Nachricht an den Server senden
+        socket.emit('chat message', username + ": " + input.value); // Nachricht mit Namen senden
         input.value = ''; // Eingabefeld leeren
       }
     };
