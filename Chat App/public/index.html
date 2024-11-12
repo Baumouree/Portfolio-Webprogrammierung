@@ -1,20 +1,131 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Anwendung</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Anwendung</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    #chat-container {
+      width: 400px;
+      max-width: 90%;
+      height: 600px;
+      background-color: #fff;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    #messages {
+      list-style: none;
+      padding: 10px;
+      flex-grow: 1;
+      overflow-y: auto;
+      background-color: #fafafa;
+    }
+
+    #messages li {
+      padding: 8px 10px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    #messages li:nth-child(odd) {
+      background-color: #e1f5fe;
+      align-self: flex-start;
+    }
+
+    #messages li:nth-child(even) {
+      background-color: #c8e6c9;
+      align-self: flex-end;
+    }
+
+    #form {
+      display: flex;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-top: 1px solid #ddd;
+    }
+
+    #input {
+      flex-grow: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px;
+      margin-left: 10px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-    <h1>Chat-Anwendung</h1>
-    <div id="chat">
-        <div id="messages"></div>
-        <input id="message-input" type="text" placeholder="Nachricht eingeben...">
-        <button id="send-button">Senden</button>
-    </div>
+  <div id="chat-container">
+    <h1>Chat Anwendung</h1>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" placeholder="Nachricht eingeben" /><button>Senden</button>
+    </form>
+  </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="script.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+
+    // Sende Nachricht vom Formular
+    document.getElementById('form').onsubmit = function(e) {
+      e.preventDefault();
+      if (input.value) {
+        socket.emit('chat message', input.value); // Nachricht an den Server senden
+        input.value = ''; // Eingabefeld leeren
+      }
+    };
+
+    // Empfangene Nachrichten anzeigen
+    socket.on('chat message', function(msg) {
+      var item = document.createElement('li');
+      item.textContent = msg;
+      document.getElementById('messages').appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+  </script>
 </body>
 </html>
