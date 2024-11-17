@@ -1,50 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel = "stylesheet" href = "style.css">
 <head>
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat Anwendung</title>
+  <title>Chat App</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    ul { list-style-type: none; padding: 0; }
+    li { padding: 8px; margin-bottom: 10px; background-color: #f4f4f4; border-radius: 5px; }
+    form { margin-top: 20px; }
+  </style>
 </head>
 <body>
-  <div id="chat-container">
-    <h1>Chat Anwendung</h1>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-      <input id="input" autocomplete="off" placeholder="Nachricht eingeben" /><button>Senden</button>
-    </form>
-  </div>
-
+  <ul id="messages"></ul>
+  <form id="form">
+    <input id="message" autocomplete="off" placeholder="Schreibe eine Nachricht" />
+    <button>Senden</button>
+  </form>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    var socket = io();
-    var username = '';
+    const socket = io();
 
-    // Pop-up zur Eingabe des Namens beim Laden der Seite
-    window.onload = function() {
-      username = prompt("Bitte gib deinen Namen ein:");
-      if (username) {
-        alert("Willkommen, " + username + "!");
-      } else {
-        username = 'Unbekannt';
-      }
-    };
+    const form = document.getElementById('form');
+    const input = document.getElementById('message');
+    const messages = document.getElementById('messages');
 
-    // Sende Nachricht vom Formular
-    document.getElementById('form').onsubmit = function(e) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (input.value) {
-        socket.emit('chat message', username + ": " + input.value); // Nachricht mit Namen senden
-        input.value = ''; // Eingabefeld leeren
+        socket.emit('chat message', input.value);
+        input.value = '';
       }
-    };
+    });
 
-    // Empfangene Nachrichten anzeigen
-    socket.on('chat message', function(msg) {
-      var item = document.createElement('li');
-      item.textContent = msg;
-      document.getElementById('messages').appendChild(item);
+    socket.on('chat message', (msg) => {
+      const li = document.createElement('li');
+      li.textContent = msg;
+      messages.appendChild(li);
       window.scrollTo(0, document.body.scrollHeight);
     });
   </script>
