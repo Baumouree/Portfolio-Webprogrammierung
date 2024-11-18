@@ -1,44 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat App</title>
-  <style>
-    body { font-family: Arial, sans-serif; }
-    ul { list-style-type: none; padding: 0; }
-    li { padding: 8px; margin-bottom: 10px; background-color: #f4f4f4; border-radius: 5px; }
-    form { margin-top: 20px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <ul id="messages"></ul>
-  <form id="form">
-    <input id="message" autocomplete="off" placeholder="Schreibe eine Nachricht" />
-    <button>Senden</button>
-  </form>
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io();
+    <h1>Chat Room</h1>
+    <div id="chat-container" style="display:none;">
+        <select id="rooms"></select>
+        <button id="join-room">Raum beitreten</button>
+        <div id="chat-box"></div>
+        <input type="text" id="message-input" placeholder="Nachricht eingeben...">
+        <button id="send-message">Senden</button>
+    </div>
+    <div id="name-container">
+        <input type="text" id="name-input" placeholder="Dein Name">
+        <button id="set-name">Loslegen</button>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
 
-    const form = document.getElementById('form');
-    const input = document.getElementById('message');
-    const messages = document.getElementById('messages');
+        const nameContainer = document.getElementById('name-container');
+        const chatContainer = document.getElementById('chat-container');
+        const roomsSelect = document.getElementById('rooms');
+        const chatBox = document.getElementById('chat-box');
+        const nameInput = document.getElementById('name-input');
+        const messageInput = document.getElementById('message-input');
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (input.value) {
-        socket.emit('chat message', input.value);
-        input.value = '';
-      }
-    });
+        // Name setzen
+        document.getElementById('set-name').addEventListener('click', () => {
+            const name = nameInput.value.trim();
+            if (name) {
+                socket.emit('setName', name);
+                nameContainer.style.display = 'none';
+                chatContainer.style.display = 'block';
+            }
+        });
 
-    socket.on('chat message', (msg) => {
-      const li = document.createElement('li');
-      li.textContent = msg;
-      messages.appendChild(li);
-      window.scrollTo(0, document.body.scrollHeight);
-    });
-  </script>
+        // Räume aktualisieren
+        socket.on('updateRooms', (rooms) => {
+            roomsSelect.innerHTML = '';
+            rooms.forEach(room => {
+                const option = document.createElement('option');
+                option.value = room;
+                option.textContent = room;
+                roomsSelect.appendChild(option);
+            });
+        });
+
+        // Raum beitreten
+        document.getElementById('join-room').addEventListener('click', () => {
+            const selectedRoom = roomsSelect.value;
+            if (selectedRoom) {
+                socket.emit('joinRoom', selectedRoom);
+            }
+        });
+
+        // Nachrichten anzeigen
+        socket.on('message', (msg) => {
+            const div = document.createElement('div');
+            div.textContent = msg;
+            chatBox.appendChild(div);
+        });
+
+        // Nachricht senden
+        document.getElementById('send-message').addEventListener('click', () => {
+            const msg = messageInput.value.trim();
+            if (msg) {
+                socket.emit('chatMessage', msg);
+                messageInput.value = '';
+            }
+        });
+
+        // Namensabfrage
+        socket.on('askName', () => {
+            nameContainer.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
