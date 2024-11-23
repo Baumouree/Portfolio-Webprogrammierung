@@ -19,12 +19,21 @@
         <input type="text" id="name-input" placeholder="Dein Name">
         <button id="set-name">Loslegen</button>
     </div>
+    <div id="user-container">
+        <h2>Aktuell eingeloggte Benutzer:</h2>
+        <ul id="user-list">
+            <!-- Benutzernamen werden hier dynamisch eingefügt -->
+        </ul>
+    </div>
+      
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
 
         const nameContainer = document.getElementById('name-container');
         const chatContainer = document.getElementById('chat-container');
+        const userContainer = document.getElementById('user-container');
+        const userList = document.getElementById('user-list');
         const roomsSelect = document.getElementById('rooms');
         const chatBox = document.getElementById('chat-box');
         const nameInput = document.getElementById('name-input');
@@ -37,6 +46,7 @@
                 socket.emit('setName', name);
                 nameContainer.style.display = 'none';
                 chatContainer.style.display = 'block';
+                userContainer.style.display = 'block';
             }
         });
 
@@ -73,6 +83,16 @@
                 socket.emit('chatMessage', msg);
                 messageInput.value = '';
             }
+        });
+
+        // Nutzerliste aktualisieren
+        socket.on('updateUserList', (users) => {
+            userList.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user.name;
+                userList.appendChild(li);
+            });
         });
 
         // Namensabfrage
