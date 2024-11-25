@@ -3,8 +3,8 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: #fff;
+  background-color: #f4f4f9;
+  color: #333;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,131 +12,131 @@ body {
 }
 
 h1 {
-  text-align: left;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  margin: 0;
-  font-size: 2.5rem;
-  color: #ffffff;
+  text-align: center;
+  color: #444;
+  margin-bottom: 20px;
 }
 
-/* Container-Stile */
-#name-container, #chat-container {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-  width: 90%;
-  max-width: 500px;
-}
-
-input, button, select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-input {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-}
-
-input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+label {
+  font-weight: bold;
+  margin-right: 10px;
 }
 
 button {
-  background-color: #2575fc;
-  color: #fff;
-  font-weight: bold;
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
   cursor: pointer;
+  border-radius: 5px;
   transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #1e63d0;
+  background-color: #4cae4c;
 }
 
-select {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #000000;
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
 }
 
-/* Chatbox-Stile */
-#chat-box {
+/* Hauptcontainer */
+#chatApp {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Benutzername-Abschnitt */
+#usernameSection {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Raum-Auswahl */
+#roomSelection {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Chat-Bereich */
+#chat {
+  display: none;
+}
+
+#currentRoom {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+/* Benutzerliste */
+#users {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+#users strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Nachrichten */
+#messages {
   height: 300px;
   overflow-y: auto;
-  margin-bottom: 10px;
-  background-color: rgba(255, 255, 255, 0.1);
   padding: 10px;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-#chat-box div {
+  background-color: #f9f9f9;
   margin-bottom: 10px;
-  padding: 5px;
+}
+
+#messages div {
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  background-color: #e9ecef;
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.2);
+  line-height: 1.4;
 }
 
-#chat-box div:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.1);
+#messages div:nth-child(odd) {
+  background-color: #d9e2ec;
 }
 
-/* Mobile Optimierung */
+/* Eingabefeld und Senden-Button */
+#messageInput {
+  width: calc(100% - 90px);
+  margin-right: 10px;
+}
+
+#sendMessage {
+  width: 80px;
+}
+
+/* Responsives Design */
 @media (max-width: 600px) {
-  h1 {
-      font-size: 2rem;
+  #chatApp {
+    width: 90%;
   }
 
-  input, button, select {
-      font-size: 0.9rem;
+  input[type="text"] {
+    width: 100%;
   }
 
-  #chat-box {
-      height: 200px;
+  #messageInput {
+    width: calc(100% - 90px);
   }
 }
-#user-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-  width: 200px;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-
-#user-container h2 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-#user-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#user-list li {
-  padding: 5px;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
-  text-align: center;
-}
-
-#user-list li:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
