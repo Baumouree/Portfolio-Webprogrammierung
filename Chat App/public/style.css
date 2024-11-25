@@ -12,8 +12,10 @@ body {
 }
 
 h1 {
+  position: absolute;
+  top: 0;
   text-align: center;
-  color: #444;
+  color: #474343;
   margin-bottom: 20px;
 }
 
