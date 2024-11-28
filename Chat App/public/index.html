@@ -55,44 +55,48 @@
 
     // Raum betreten oder wechseln
     document.getElementById("joinRoom").addEventListener("click", () => {
-      const room = document.getElementById("rooms").value;
+  const room = document.getElementById("rooms").value;
 
-      if (room === currentRoom) return; // Kein Wechsel notwendig
+  if (room === currentRoom) return; // Kein Wechsel notwendig
 
-      currentRoom = room;
-      socket.emit("joinRoom", room);
+  currentRoom = room;
+  socket.emit("joinRoom", room);
 
-      document.getElementById("chat").style.display = "block";
-      document.getElementById("currentRoom").innerText = `Raum: ${room}`;
+  document.getElementById("chat").style.display = "block";
+  document.getElementById("currentRoom").innerText = `Raum: ${room}`;
 
-      // Nachrichten- und Benutzerlisten leeren, um alte Daten zu vermeiden
-      document.getElementById("messages").innerHTML = "";
-      document.getElementById("users").innerHTML = "<strong>Eingeloggte Nutzer:</strong>";
-    });
+  // Nachrichten- und Benutzerlisten leeren, um alte Daten zu vermeiden
+  document.getElementById("messages").innerHTML = "";
+  document.getElementById("users").innerHTML = "<strong>Eingeloggte Nutzer:</strong>";
+});
 
-    // Chatverlauf anzeigen
-    socket.on("chatHistory", (messages) => {
-      const messagesDiv = document.getElementById("messages");
-      messagesDiv.innerHTML = ""; // Vorherige Nachrichten entfernen
-      messages.forEach((msg) => {
-        const messageElement = document.createElement("div");
-        messageElement.innerText = `${msg.user}: ${msg.text}`;
-        messagesDiv.appendChild(messageElement);
-      });
-    });
+// Chatverlauf aus der Datenbank laden und anzeigen
+socket.on("chatHistory", (messages) => {
+  const messagesDiv = document.getElementById("messages");
+  messagesDiv.innerHTML = ""; // Vorherige Nachrichten entfernen
 
-    // Nachrichten empfangen
-    socket.on("message", (message) => {
-      const messagesDiv = document.getElementById("messages");
-      const messageElement = document.createElement("div");
-      if (typeof message === "string") {
-        messageElement.innerText = message;
-      } else {
-        messageElement.innerText = `${message.user}: ${message.text}`;
-      }
-      messagesDiv.appendChild(messageElement);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    });
+  messages.forEach((msg) => {
+    const messageElement = document.createElement("div");
+    const timestamp = new Date(msg.timestamp).toLocaleString(); // Zeitstempel formatieren
+    messageElement.innerText = `[${timestamp}] ${msg.username}: ${msg.message}`;
+    messagesDiv.appendChild(messageElement);
+  });
+});
+
+// Nachrichten empfangen
+socket.on("message", (message) => {
+  const messagesDiv = document.getElementById("messages");
+  const messageElement = document.createElement("div");
+  if (typeof message === "string") {
+    messageElement.innerText = message;
+  } else {
+    const timestamp = new Date().toLocaleString(); // Aktuelle Zeit
+    messageElement.innerText = `[${timestamp}] ${message.user}: ${message.text}`;
+  }
+  messagesDiv.appendChild(messageElement);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+});
+
 
     // Benutzerliste aktualisieren
     socket.on("userList", (roomUsers) => {

@@ -1,5 +1,9 @@
 version: '3.8'
 
+networks:
+  app_network:
+    external: true # Ein vorhandenes Netzwerk nutzen (z. B. das der Datenbank)
+
 services:
   app:
     build:
@@ -8,8 +12,15 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
-      - /app/node_modules
-
+      - .:/Chat App
+      - /Chat App/node_modules
     environment:
       - NODE_ENV=development
+      - PGHOST=my-postgres
+      - PGUSER=postgres
+      - PGPASSWORD=webpdatenbank
+      - PGDATABASE=chatapp
+      - PGPORT=5432
+    networks:
+      - app_network
+    command: npm run dev
