@@ -37,7 +37,7 @@ async function saveMessageToDB(username, message, room) {
 // Nachrichten aus der Datenbank abrufen
 async function getMessagesFromDB(room) {
   const query = `
-    SELECT username, message, timestamp 
+    SELECT id, username, message, timestamp 
     FROM messages 
     WHERE room = $1
     ORDER BY timestamp ASC;
