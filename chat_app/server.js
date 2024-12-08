@@ -37,19 +37,7 @@ async function insertData(username, message, room) {
     // await pool.end();
   }
 }
-//holt die Nachrichten informationen aus der Datenbank
-async function getData(){
-  const query = `
-  SELECT * FROM messages;
-  `;
-  try{
-  const messageData = await pool.query(query)
-  } catch (err){
-    console.error('Fehler beim Abrufen der Daten:', err);
-    throw err; // Fehler weitergeben, falls nötig
-  }
-  return messageData;
-}
+
 //speichert die Nachrichten in der Datenbank
 async function saveMessageToDB(username, message, room) {
   try {
