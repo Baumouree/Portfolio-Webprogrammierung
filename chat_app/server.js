@@ -57,7 +57,7 @@ async function getMessagesFromDB(room) {
 app.use(express.static("public"));
 
 // Räume und Benutzer verwalten
-const rooms = ["room1", "room2", "room3"];
+const rooms = ["General", "Webprogrammierung", "Kurs: WWI23/B"];
 const users = {};
 
 // WebSocket-Verbindungen
