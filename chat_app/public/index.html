@@ -8,7 +8,6 @@
 </head>
 <body>
   <h1>Chat Räume</h1>
-
   <div id="usernameSection">
     <label for="username">Benutzername:</label>
     <input type="text" id="username" placeholder="Dein Name">
@@ -20,9 +19,19 @@
     <select id="rooms">
       <option value="General">General</option>
       <option value="Webprogrammierung">Webprogrammierung</option>
-      <option value="WWI23/B">WWI23/B</option>
+      <option value="WWI23B">WWI23B</option>
     </select>
     <button id="joinRoom">Raum wechseln</button>
+  </div>
+
+  <div id="themeSelection">
+    <label for="themes">Farbschema:</label>
+    <select id="themes">
+      <option value="">Standard</option>
+      <option value="theme-light">Hell</option>
+      <option value="theme-dark">Dunkel</option>
+      <option value="theme-blue">Blau</option>
+    </select>
   </div>
 
   <div id="chat" style="display: none;">
@@ -83,7 +92,7 @@
     socket.on("message", (message) => {
       const messagesDiv = document.getElementById("messages");
       const messageElement = document.createElement("div");
-      if (typeof message === "string" && message.includes("ist dem Raum")) {
+      if (typeof message === "string") {
         messageElement.innerText = message;
       } else {
         const timestamp = new Date().toLocaleString(); // Aktuelle Zeit
@@ -105,7 +114,6 @@
         });
       }
     });
-
     // Nachricht senden
     document.getElementById("sendMessage").addEventListener("click", () => {
       const message = document.getElementById("messageInput").value;
@@ -114,6 +122,15 @@
         document.getElementById("messageInput").value = "";
       }
     });
+    document.getElementById("themes").addEventListener("change", (event) => {
+    document.body.className = event.target.value; // Wendet das ausgewählte Thema an
+
+    if (!theme) {
+      document.body.className = "";
+    } else {
+      document.body.className = themen;
+    }
+  });
   </script>
 </body>
 </html>

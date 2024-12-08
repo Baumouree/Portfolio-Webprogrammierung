@@ -3,7 +3,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #ffffff;
+  background-color: #b2dec3;
   color: #333;
   display: flex;
   justify-content: center;
@@ -15,7 +15,6 @@ h1 {
   position: absolute;
   top: 0;
   text-align: center;
-  color: #474343;
   margin-bottom: 20px;
 }
 
@@ -65,13 +64,16 @@ input[type="text"] {
 
 /* Raum-Auswahl */
 #roomSelection {
-  text-align: center;
-  margin-bottom: 20px;
+    position: absolute;
+    top: 90px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 /* Chat-Bereich */
 #chat {
-  display: none;
+  background-color: white;
+  border-radius: 2.5%;
 }
 
 #currentRoom {
@@ -112,4 +114,25 @@ input[type="text"] {
 
 #sendMessage {
   width: 80px;
+}
+/* Farbschemata */
+body.theme-light {
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+body.theme-dark {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+
+body.theme-blue {
+  background-color: #d0e7f9;
+  color: #003366;
+}
+#themeSelection {
+  position: absolute;
+  bottom: 10px; /* Abstand von unten */
+  right: 10px; /* Abstand von links */
+  z-index: 1000;
 }

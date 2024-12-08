@@ -57,13 +57,12 @@ async function getMessagesFromDB(room) {
 app.use(express.static("public"));
 
 // Räume und Benutzer verwalten
-const rooms = ["General", "Webprogrammierung", "Kurs: WWI23/B"];
+const rooms = ["General", "Webprogrammierung", "WWI23B"];
 const users = {};
 
 // WebSocket-Verbindungen
 io.on("connection", (socket) => {
   console.log("Ein Nutzer hat sich verbunden:", socket.id);
-
   // Benutzername setzen
   socket.on("setUsername", (username) => {
     users[socket.id] = { username, room: null };
@@ -73,7 +72,7 @@ io.on("connection", (socket) => {
   // Raum wechseln
   socket.on("joinRoom", async (room) => {
     if (!rooms.includes(room)) {
-      socket.emit("message", "Ungültiger Raum!");
+      socket.emit("message", `Ungültiger Raum!`);
       return;
     }
 
