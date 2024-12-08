@@ -18,26 +18,6 @@ module.exports = pool;
 
 //Sql Funktionen//
 
-//Inserted die Daten von einer Nachricht in die Datenbank
-async function insertData(username, message, room) {
-  const query = `
-    INSERT INTO Nachrichten (username, message, room)
-    VALUES ($1, $2, $3)
-    RETURNING *;
-  `;
-
-  try {
-    // Führe die Abfrage aus
-    const res = await pool.query(query, [username, message, room]);
-    console.log('Eingefügte Daten:', res.rows[0]);
-  } catch (err) {
-    console.error('Fehler beim Einfügen:', err);
-  } finally {
-    // Verbindung schließen (optional bei wiederholten Anfragen)
-    // await pool.end();
-  }
-}
-
 //speichert die Nachrichten in der Datenbank
 async function saveMessageToDB(username, message, room) {
   try {
@@ -49,10 +29,10 @@ async function saveMessageToDB(username, message, room) {
     const values = [username, message, room];
 
     const result = await pool.query(query, values);
-    return result.rows[0]; // Gibt die gespeicherte Nachricht zurück
+    return result.rows[0]; // Gibt gespeicherte Nachricht zurück
   } catch (error) {
     console.error("Fehler beim Speichern der Nachricht:", error);
-    throw error; // Fehler weitergeben, falls benötigt
+    throw error; // Fehler weitergeben
   }
 }
 // Funktion zum Abrufen von Nachrichten eines Raums

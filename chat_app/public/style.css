@@ -83,27 +83,17 @@ input[type="text"] {
 
 /* Benutzerliste */
 #users {
-  margin-bottom: 10px;
+  border: 1px solid #ccc;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
-
-#users strong {
-  display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 /* Nachrichten */
 #messages {
+  border: 1px solid #ccc;
   height: 300px;
-  overflow-y: auto;
+  overflow-y: scroll;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  margin-bottom: 10px;
 }
 
 #messages div {
@@ -114,10 +104,6 @@ input[type="text"] {
   line-height: 1.4;
 }
 
-#messages div:nth-child(odd) {
-  background-color: #d9e2ec;
-}
-
 /* Eingabefeld und Senden-Button */
 #messageInput {
   width: calc(100% - 90px);
@@ -126,23 +112,4 @@ input[type="text"] {
 
 #sendMessage {
   width: 80px;
-}
-
-#deleteMessage{
-  width: 100px;
-}
-
-/* Responsives Design */
-@media (max-width: 600px) {
-  #chatApp {
-    width: 90%;
-  }
-
-  input[type="text"] {
-    width: 100%;
-  }
-
-  #messageInput {
-    width: calc(100% - 90px);
-  }
 }
