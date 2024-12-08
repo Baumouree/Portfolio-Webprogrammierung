@@ -93,7 +93,7 @@ io.on("connection", (socket) => {
       socket.emit("message", "Fehler beim Laden des Chatverlaufs.");
     }
 
-    io.to(room).emit("message", `${user.username} ist dem Raum ${room} beigetreten.`);
+    io.to(room).emit("message",`${user.username} ist dem Raum ${room} beigetreten.`);
     updateUsers();
   });
 

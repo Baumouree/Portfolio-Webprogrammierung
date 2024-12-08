@@ -113,3 +113,15 @@ input[type="text"] {
 #sendMessage {
   width: 80px;
 }
+.deleteButton {
+  margin-left: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.deleteButton:hover {
+  background-color: #ff1a1a;
+}
