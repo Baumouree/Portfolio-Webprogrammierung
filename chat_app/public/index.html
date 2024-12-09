@@ -71,7 +71,7 @@
 
       // Nachrichten- und Benutzerlisten leeren, um alte Daten zu vermeiden
       document.getElementById("messages").innerHTML = "";
-      document.getElementById("users").innerHTML = "<strong>Eingeloggte Nutzer:</strong>";
+      document.getElementById("users").innerHTML = "<strong> Nutzer im Raum:</strong>";
     });
 
     // Chatverlauf aus der Datenbank laden und anzeigen
@@ -105,7 +105,7 @@
     // Benutzerliste aktualisieren
     socket.on("userList", (roomUsers) => {
       const usersDiv = document.getElementById("users");
-      usersDiv.innerHTML = "<strong>Eingeloggte Nutzer:</strong>";
+      usersDiv.innerHTML = "<strong>Nutzer im Raum:</strong>";
       if (currentRoom && roomUsers[currentRoom]) {
         roomUsers[currentRoom].forEach((username) => {
           const userElement = document.createElement("div");
