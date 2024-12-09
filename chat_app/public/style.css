@@ -138,7 +138,7 @@ body.theme-blue {
 
 #themeSelection {
   position: absolute;
-  bottom: 10px; /* Abstand von unten */
-  right: 10px; /* Abstand von links */
+  bottom: 10px;
+  right: 10px;
   z-index: 1000;
 }
