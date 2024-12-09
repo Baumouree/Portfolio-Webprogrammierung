@@ -3,7 +3,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 const { Pool } = require("pg");
 
-// Server- und Datenbankkonfiguration
+//Server-Datenbankkonfiguration
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
@@ -16,7 +16,7 @@ const pool = new Pool({
   port: process.env.PGPORT || 5432,
 });
 
-// Nachrichten in der Datenbank speichern
+//Nachrichten in Datenbank speichern
 async function saveMessageToDB(username, message, room) {
   const query = `
     INSERT INTO messages (username, message, room, timestamp)
@@ -34,7 +34,7 @@ async function saveMessageToDB(username, message, room) {
   }
 }
 
-// Nachrichten aus der Datenbank abrufen
+//Nachrichten aus Datenbank abrufen
 async function getMessagesFromDB(room) {
   const query = `
     SELECT id, username, message, timestamp 
@@ -53,23 +53,22 @@ async function getMessagesFromDB(room) {
   }
 }
 
-// Middleware und statische Dateien
 app.use(express.static("public"));
 
-// Räume und Benutzer verwalten
+//Räume und Benutzer verwalten
 const rooms = ["General", "Webprogrammierung", "WWI23B"];
 const users = {};
 
-// WebSocket-Verbindungen
+//WebSocket-Verbindungen
 io.on("connection", (socket) => {
   console.log("Ein Nutzer hat sich verbunden:", socket.id);
-  // Benutzername setzen
+  //Benutzername setzen
   socket.on("setUsername", (username) => {
     users[socket.id] = { username, room: null };
     updateUsers();
   });
 
-  // Raum wechseln
+  //Raum wechseln
   socket.on("joinRoom", async (room) => {
     if (!rooms.includes(room)) {
       socket.emit("message", `Ungültiger Raum!`);
@@ -96,7 +95,7 @@ io.on("connection", (socket) => {
     updateUsers();
   });
 
-  // Nachricht senden
+  //Nachricht senden
   socket.on("chatMessage", async (message) => {
     const user = users[socket.id];
     if (!user || !user.room || !rooms.includes(user.room)) return;
@@ -113,7 +112,7 @@ io.on("connection", (socket) => {
     io.to(room).emit("message", fullMessage);
   });
 
-  // Verbindung trennen
+  //Verbindung trennen
   socket.on("disconnect", () => {
     const user = users[socket.id];
     if (user) {
@@ -126,7 +125,7 @@ io.on("connection", (socket) => {
     console.log("Ein Nutzer hat die Verbindung getrennt:", socket.id);
   });
 
-  // Benutzerliste aktualisieren
+  //Benutzerliste aktualisieren
   function updateUsers() {
     const roomUsers = rooms.reduce((acc, room) => {
       acc[room] = Object.values(users)
