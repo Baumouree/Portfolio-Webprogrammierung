@@ -126,10 +126,16 @@ body.theme-dark {
   color: #f0f0f0;
 }
 
+body.theme-dark #chat {
+  background-color: grey;
+  color: black;
+}
+
 body.theme-blue {
   background-color: #d0e7f9;
   color: #003366;
 }
+
 #themeSelection {
   position: absolute;
   bottom: 10px; /* Abstand von unten */
