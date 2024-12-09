@@ -47,7 +47,7 @@
     const socket = io();
     let currentRoom = "";
 
-    // Benutzername setzen
+    //Benutzername eingeben
     document.getElementById("setUsername").addEventListener("click", () => {
       const username = document.getElementById("username").value;
       if (username) {
@@ -57,11 +57,11 @@
       }
     });
 
-    // Raum betreten oder wechseln
+    //Raum betreten/wechseln
     document.getElementById("joinRoom").addEventListener("click", () => {
       const room = document.getElementById("rooms").value;
 
-      if (room === currentRoom) return; // Kein Wechsel notwendig
+      if (room === currentRoom) return;
 
       currentRoom = room;
       socket.emit("joinRoom", room);
@@ -69,15 +69,15 @@
       document.getElementById("chat").style.display = "block";
       document.getElementById("currentRoom").innerText = `Raum: ${room}`;
 
-      // Nachrichten- und Benutzerlisten leeren, um alte Daten zu vermeiden
+      //Nachrichten und Benutzerlisten leeren
       document.getElementById("messages").innerHTML = "";
       document.getElementById("users").innerHTML = "<strong> Nutzer im Raum:</strong>";
     });
 
-    // Chatverlauf aus der Datenbank laden und anzeigen
+    // Chatverlauf aus Datenbank laden und anzeigen
     socket.on("chatHistory", (messages) => {
       const messagesDiv = document.getElementById("messages");
-      messagesDiv.innerHTML = ""; // Vorherige Nachrichten entfernen
+      messagesDiv.innerHTML = "";
 
       messages.forEach((msg) => {
         const messageElement = document.createElement("div");
@@ -88,21 +88,21 @@
       });
     });
 
-    // Nachrichten empfangen
+    //Nachrichten empfangen
     socket.on("message", (message) => {
       const messagesDiv = document.getElementById("messages");
       const messageElement = document.createElement("div");
       if (typeof message === "string") {
         messageElement.innerText = message;
       } else {
-        const timestamp = new Date().toLocaleString(); // Aktuelle Zeit
+        const timestamp = new Date().toLocaleString();
         messageElement.innerText = `[${timestamp}] ${message.user}: ${message.text}`;
       }
       messagesDiv.appendChild(messageElement);
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     });
 
-    // Benutzerliste aktualisieren
+    //Benutzerliste aktualisieren
     socket.on("userList", (roomUsers) => {
       const usersDiv = document.getElementById("users");
       usersDiv.innerHTML = "<strong>Nutzer im Raum:</strong>";
@@ -114,7 +114,7 @@
         });
       }
     });
-    // Nachricht senden
+    //Nachricht senden
     document.getElementById("sendMessage").addEventListener("click", () => {
       const message = document.getElementById("messageInput").value;
       if (message) {
@@ -122,8 +122,10 @@
         document.getElementById("messageInput").value = "";
       }
     });
+
+
     document.getElementById("themes").addEventListener("change", (event) => {
-    document.body.className = event.target.value; // Wendet das ausgewählte Thema an
+    document.body.className = event.target.value;
 
     if (!theme) {
       document.body.className = "";
